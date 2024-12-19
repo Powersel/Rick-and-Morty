@@ -17,7 +17,7 @@ final class RMCharacterViewModel: RMCharacterViewModelProtocol {
   private let dtoModel: RMCharacter
   private let networkService: NetworkServiceProtocol
   
-  init(_ dtoModel: RMCharacter, _ networkService: NetworkServiceProtocol) {
+  init(_ dtoModel: RMCharacter, _ networkService: NetworkServiceProtocol = NetworkService()) {
     self.dtoModel = dtoModel
     self.networkService = networkService
   }

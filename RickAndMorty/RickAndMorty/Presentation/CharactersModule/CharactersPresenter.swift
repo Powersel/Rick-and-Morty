@@ -7,9 +7,17 @@ protocol CharactersPresenterProtocol {
 
 final class CharactersPresenter {
   
+  private enum ActivityState {
+    case idle
+    case loading
+  }
+  
   private let networsService: NetworkServiceProtocol
   private let parsingService: ParsingServiceProtocol
   private var rmViewModels: [RMCharacterViewModelProtocol] = []
+  
+  private var nextPage: String?
+  private var activityState: ActivityState = .idle
   
   init(_ networkService: NetworkServiceProtocol = NetworkService(),
        _ parsingService: ParsingServiceProtocol = ParsingService()) {
@@ -20,12 +28,18 @@ final class CharactersPresenter {
 
 extension CharactersPresenter: CharactersPresenterProtocol {
   func fetchData() async throws {
+    if activityState == .loading { return }
+    activityState = .loading
     do {
-      let urlString = APIEndpoint.characters.path
+      let urlString = nextPage != nil ? nextPage! : APIEndpoint.characters.path
       let data = try await networsService.fetchData(urlString)
       let dtoModel = try parsingService.parseData(data, RMCharactersData.self)
-      rmViewModels = dtoModel.results.map { RMCharacterViewModel($0, networsService) }
+      nextPage = dtoModel.info.next
+      let viewModels = dtoModel.results.map { RMCharacterViewModel($0) }
+      rmViewModels.append(contentsOf: viewModels)
+      activityState = .idle
     } catch {
+      activityState = .idle
       throw RMError.invalidResponse
     }
   }

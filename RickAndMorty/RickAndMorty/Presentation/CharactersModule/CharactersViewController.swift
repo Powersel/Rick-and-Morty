@@ -28,7 +28,7 @@ final class CharactersViewController: UITableViewController {
         DispatchQueue.main.async {
           self?.tableView.reloadData()
         }
-      } catch let error {
+      } catch {
         
       }
     }
@@ -41,6 +41,10 @@ final class CharactersViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if indexPath.row == presenter.getCharacterModels().count - 5 {
+      loadData()
+    }
+    
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "RMCharactersTableCell", for: indexPath) as? RMCharactersTableCell else {
       fatalError("RMCharactersTableCell does not exist.")
     }
