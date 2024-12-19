@@ -9,4 +9,5 @@ struct RMCharacter: Decodable {
   let id: Int
   let name: String
   let image: String
+  let species: String
 }

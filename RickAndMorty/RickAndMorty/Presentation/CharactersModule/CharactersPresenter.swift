@@ -3,6 +3,8 @@ import Foundation
 protocol CharactersPresenterProtocol {
   func fetchData() async throws
   func getCharacterModels() -> [RMCharacterViewModelProtocol]
+  
+  func presentDetailsScreen(with index: Int)
 }
 
 final class CharactersPresenter {
@@ -19,10 +21,15 @@ final class CharactersPresenter {
   private var nextPage: String?
   private var activityState: ActivityState = .idle
   
-  init(_ networkService: NetworkServiceProtocol = NetworkService(),
-       _ parsingService: ParsingServiceProtocol = ParsingService()) {
+  private let coordinator: AppCoordinator
+  
+  init(networkService: NetworkServiceProtocol = NetworkService(),
+       parsingService: ParsingServiceProtocol = ParsingService(),
+       coordinator: AppCoordinator
+  ) {
     self.networsService = networkService
     self.parsingService = parsingService
+    self.coordinator = coordinator
   }
 }
 
@@ -46,5 +53,10 @@ extension CharactersPresenter: CharactersPresenterProtocol {
   
   func getCharacterModels() -> [RMCharacterViewModelProtocol] {
     return rmViewModels
+  }
+  
+  func presentDetailsScreen(with index: Int) {
+    let viewModel = rmViewModels[index]
+    coordinator.presentCharacterScreen(viewModel)
   }
 }

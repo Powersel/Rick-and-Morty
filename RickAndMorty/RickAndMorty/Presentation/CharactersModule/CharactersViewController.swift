@@ -29,13 +29,12 @@ final class CharactersViewController: UITableViewController {
           self?.tableView.reloadData()
         }
       } catch {
-        
+        throw RMError.invalidUrl
       }
     }
   }
   
   // Table view
-  
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return presenter.getCharacterModels().count
   }
@@ -52,6 +51,10 @@ final class CharactersViewController: UITableViewController {
     cell.rmCharacterModel = model
     
     return cell
+  }
+  
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    presenter.presentDetailsScreen(with: indexPath.row)
   }
   
   // Table view delegate
