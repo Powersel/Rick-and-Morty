@@ -1,6 +1,6 @@
 import Foundation
 
-struct ServiceDataInfo: Codable {
+struct ServiceDataInfo: Decodable {
   let count: Int
   let pages: Int
   let next: String?

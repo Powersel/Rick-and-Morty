@@ -9,7 +9,7 @@ public enum RMError: Error {
   
   var localizedDescription: String {
     switch self {
-    case .parsingFailed: return "Parsing model error."
+    case .parsingFailed: return "Model parsing error."
     case .networkError: return "API error network."
     default: return "Some unknown error"
     }

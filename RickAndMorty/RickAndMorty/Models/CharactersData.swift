@@ -1,44 +1,12 @@
 import Foundation
 
-struct RMCharactersData: Codable {
+struct RMCharactersData: Decodable {
   let info: ServiceDataInfo
-  let characters: [RMCharacter]
-  
-  enum CodingKeys: String, CodingKey {
-    case info
-    case characters = "results"
-  }
+  let results: [RMCharacter]
 }
 
-//enum RMCharacterStatus: String, Codable, CaseIterable {
-//  case alive
-//  case dead
-//  case unknown
-//
-//  enum CodingKeys: String, CodingKey {
-//      case alive = "Alive"
-//      case dead = "Dead"
-//      case unknown = "unknown"
-//  }
-//}
-//
-//enum RMSpecies: String, Codable, CaseIterable {
-//  case human = "Human"
-//  case alien = "Alien"
-//}
-
-struct RMCharacter: Codable {
+struct RMCharacter: Decodable {
   let id: Int
   let name: String
-//  let species: RMSpecies
-//  let imageUrl: String
-//  let status: RMCharacterStatus
-  
-  enum CodingKeys: String, CodingKey {
-    case id
-    case name
-//    case status
-//    case species
-//    case imageUrl = "image"
-  }
+  let image: String
 }
