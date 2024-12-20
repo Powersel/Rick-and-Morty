@@ -22,12 +22,10 @@ final class CharactersViewController: UITableViewController {
   }
   
   private func loadData() {
-    Task { [weak self] in
+    Task { @MainActor in
       do {
-        try await self?.presenter.fetchData()
-        DispatchQueue.main.async {
-          self?.tableView.reloadData()
-        }
+        try await self.presenter.fetchData()
+        self.tableView.reloadData()
       } catch {
         throw RMError.invalidUrl
       }
